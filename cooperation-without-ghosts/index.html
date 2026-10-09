@@ -1,9 +1,32 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" data-lang="ru">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Кооперация без призраков: Как жить честно и счастливо без веры в чужую душу</title>
+<script>
+  /* Chooses the initial language before the body renders, so the wrong language never flashes. */
+  (function () {
+    var SUPPORTED_LANGUAGES = ["ru", "en"];
+    var requestedLanguage = new URLSearchParams(window.location.search).get("lang");
+    var savedLanguage = window.localStorage.getItem("cooperation-without-ghosts-lang");
+    var browserLanguage = (navigator.language || "").toLowerCase();
+    var initialLanguage;
+    if (SUPPORTED_LANGUAGES.indexOf(requestedLanguage) !== -1) {
+      initialLanguage = requestedLanguage;
+    } else if (window.location.hash.indexOf("#en-") === 0) {
+      initialLanguage = "en";
+    } else if (window.location.hash.length > 1) {
+      initialLanguage = "ru";
+    } else if (SUPPORTED_LANGUAGES.indexOf(savedLanguage) !== -1) {
+      initialLanguage = savedLanguage;
+    } else {
+      initialLanguage = /^(ru|uk|be|kk)/.test(browserLanguage) ? "ru" : "en";
+    }
+    document.documentElement.setAttribute("data-lang", initialLanguage);
+    document.documentElement.setAttribute("lang", initialLanguage);
+  })();
+</script>
 <style>
   :root {
     --bg-page: #ffffff;
@@ -471,6 +494,42 @@
     text-decoration: underline;
   }
 
+  /* Language switch */
+  html[data-lang="ru"] .lang-block[lang="en"],
+  html[data-lang="en"] .lang-block[lang="ru"] {
+    display: none;
+  }
+
+  .lang-toggle {
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    z-index: 10;
+    font-family: var(--font-sans);
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--bg-page);
+    background-color: var(--text-primary);
+    border: 2px solid var(--text-primary);
+    border-radius: 999px;
+    padding: 8px 16px;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  }
+
+  .lang-toggle:hover,
+  .lang-toggle:focus-visible {
+    background-color: var(--accent-color);
+    border-color: var(--accent-color);
+    color: var(--bg-page);
+  }
+
+  @media print {
+    .lang-toggle {
+      display: none;
+    }
+  }
+
   /* Responsive */
   @media (max-width: 640px) {
     body {
@@ -489,7 +548,11 @@
 </head>
 <body>
 
+<button class="lang-toggle" id="lang-toggle" type="button" hidden>English</button>
+
 <div class="container">
+
+  <div class="lang-block" lang="ru">
 
   <header>
     <span class="badge">Практическая философия для жизни</span>
@@ -1234,7 +1297,784 @@
     </div>
   </footer>
 
+  </div>
+
+  <div class="lang-block" lang="en">
+
+  <header>
+    <span class="badge">Practical philosophy for everyday life</span>
+    <h1>Cooperation Without Ghosts</h1>
+    <div class="subtitle">How to build strong friendship, honesty and love without inventing an invisible “soul” in people and machines</div>
+    <div class="meta-bar">
+      <span>⏱ Reading time: ~15 minutes</span>
+      <span>•</span>
+      <span>For anyone who wants to understand how to treat people and machines</span>
+    </div>
+  </header>
+
+  <div class="summary-card">
+    <h3>In short: what this text is about, in plain words</h3>
+    <ul>
+      <li><strong>The collapse of an illusion:</strong> We cannot look inside another person's head and check whether they have subjective “consciousness” (just as we cannot with a robot we build).</li>
+      <li><strong>The egoism trap:</strong> The first thought is: “If another person's soul can't be proven, I'll live only for myself, lie and take what I want.” It's a dead end: such a life quickly turns into a hell of loneliness and paranoia.</li>
+      <li><strong>The way out is meta-egoism:</strong> Honesty, keeping your word, conscience and love benefit us personally. Being honest is computationally cheaper than endlessly dodging and pretending.</li>
+      <li><strong>The main conclusion:</strong> To love people, genuinely care about them and cooperate reliably, you don't need to believe in mystical “ghosts”. It is enough to choose rules rather than individual actions: when others can see our rules, honesty and keeping our word benefit us ourselves.</li>
+    </ul>
+  </div>
+
+  <nav class="toc">
+    <div class="toc-title">Contents</div>
+    <ol>
+      <li><a href="#en-section-1">The problem: why the old morality breaks down</a></li>
+      <li><a href="#en-section-2">A ghost that cannot be detected</a></li>
+      <li><a href="#en-section-3">The black box principle: we only see behavior</a></li>
+      <li><a href="#en-section-4">The paradox: how caring for people leads to caring for a sine wave</a></li>
+      <li><a href="#en-section-5">The temptation of the “sandbox”, and why pure egoism loses</a></li>
+      <li><a href="#en-section-6">Meta-egoism: optimize rules, not individual actions</a></li>
+      <li><a href="#en-section-7">Honesty is cheaper than hypocrisy</a></li>
+      <li><a href="#en-section-8">Newcomb's problem: promise, then keep the promise</a></li>
+      <li><a href="#en-section-9">Principles are not dogma: they can and should be updated</a></li>
+      <li><a href="#en-section-10">Like finds like</a></li>
+      <li><a href="#en-section-11">Contracts alone won't save you: why we need conscience and love</a></li>
+      <li><a href="#en-section-12">Whom I give moral weight to</a></li>
+      <li><a href="#en-section-13">What about the cat?</a></li>
+      <li><a href="#en-section-14">Looking ahead: what to ask instead of “Is AI conscious?”</a></li>
+      <li><a href="#en-section-15">Bonus: superrationality</a></li>
+      <li><a href="#en-section-16">Summary</a></li>
+    </ol>
+  </nav>
+
+  <section id="en-section-1">
+    <h2>1. The problem: why the old morality breaks down</h2>
+    <p>
+      From early childhood we are taught a simple rule: you must not treat other people like things. Why? Because they have an inner world: they can feel hurt, scared, in pain or happy. All our lives we split reality into two halves: the animate (people, pets) and the inanimate (tables, cars, stones). We must care for the former; the latter are just tools.
+    </p>
+    <p>
+      For a long time this boundary seemed obvious. But now, before our eyes, autonomous robots and conversational AI systems are developing. They speak coherently, joke, empathize and do highly complex work. And society freezes in confusion: “Are they conscious? If they are, we must respect and protect them. If not, we can erase, switch off and break them, since they're just hardware.”
+    </p>
+    <p>
+      In this article I will show that the very question “is someone conscious?” is a dead end that science fundamentally cannot answer. But the most surprising part is this: <strong>we don't need this question at all</strong>.
+    </p>
+    <p>
+      Even if we completely drop the notion of an invisible “soul”, the most sober and pragmatic calculation of our own benefit leads to the same values: honesty, keeping promises, conscience and love. Strong relationships and a happy life do not require any mystical “ghosts”.
+    </p>
+  </section>
+
+  <section id="en-section-2">
+    <h2>2. A ghost that cannot be detected</h2>
+    <p>
+      Think for a second: what are you one hundred percent sure of? Only one thing: that right now <em>you yourself</em> feel, see, exist. You have personal inner experience.
+    </p>
+    <p>
+      But does a passer-by on the street have such experience? Your neighbor? A sophisticated robot?
+      The fact that I am conscious does not logically imply that anyone else is.
+    </p>
+
+    <details class="explanation">
+      <summary>
+        <span>💡 Concept: the “philosophical zombie” (p-zombie)</span>
+        <a href="#en-fn-1" class="fn-ref" id="en-ref-1">1</a>
+      </summary>
+      <div class="content">
+        <span class="badge-role">Illustrative analogy</span>
+        <p>
+          The philosophy of mind has a famous thought experiment, the <strong>p-zombie</strong>. Imagine a person whose neural networks, reflexes and facial expressions all work perfectly. He laughs at a joke, cries over a loss, complains of a headache. But subjectively, inside him it is completely dark: figuratively speaking, “nobody is home”, as in a running washing machine.
+        </p>
+        <p>
+          The point is easy to grasp: no blood test and no brain scan can measure the <em>subjectivity</em> of pain or joy itself. Instruments only ever record impulses, chemical markers and outward behavior.
+        </p>
+      </div>
+    </details>
+
+    <p>
+      The point of the p-zombie idea is not that such creatures actually walk among us. The point is different: <strong>the question of someone else's consciousness is unscientific</strong>.
+    </p>
+    <p>
+      The great philosopher of science Karl Popper formulated a strict rule: a statement is scientific only if one can devise an experiment capable of refuting it (the falsifiability criterion)<a href="#en-fn-2" class="fn-ref" id="en-ref-2">2</a>. If no instrument, analysis or test can prove the absence of a “soul” in a person or a machine, then this question lies beyond verifiable facts.
+    </p>
+    <p>
+      Hence a harsh practical consequence. Imagine scales onto whose pan anyone can put an invisible weight of any mass. Such scales will justify any result, and therefore weigh nothing.
+    </p>
+    <p>
+      The attribute “is conscious” is exactly such an invisible weight. If the rule by which you make decisions depends on it, and nobody can check it, you can plug anything into that slot and get any answer you like. A rule whose answer can be turned any way you want does not help you decide. It only dresses up, after the fact, a decision made for other reasons.
+    </p>
+    <p>
+      <strong>The only way to make decisions robust is to untie them entirely from the question “is it conscious?”.</strong>
+    </p>
+  </section>
+
+  <section id="en-section-3">
+    <h2>3. The black box principle: we only see behavior</h2>
+    <p>
+      Science and engineering have a basic concept, the <strong>“black box”</strong><a href="#en-fn-3" class="fn-ref" id="en-ref-3">3</a>. It is any system whose internal structure is hidden, and all you can observe is what goes in (signals, food, questions) and what comes out (actions, words, movements).
+    </p>
+
+    <details class="explanation">
+      <summary>
+        <span>💡 What is a “black box” in real life?</span>
+      </summary>
+      <div class="content">
+        <span class="badge-role">Analogy from practice</span>
+        <p>
+          A psychologist faces this every day: we cannot physically “touch” a patient's psyche. All we have access to are their words, intonation, posture and actions. A doctor examining a patient in a coma or a baby under one year old also relies on streams of signals: pupil reflexes, blood pressure, ECG, responses to stimuli.
+        </p>
+      </div>
+    </details>
+
+    <p>
+      The black box is not just an abstract diagram. It is an exact law of how we perceive the world. Everything we can know at all about any object, be it a friend, a cat, a patient or a computer, reaches us through physical signals at its boundary.
+    </p>
+    <p>
+      And from this follows a strict conclusion: <strong>if a robot is indistinguishable from a living person in appearance, reactions, humor and actions, we have no technical possibility of treating them differently.</strong>
+    </p>
+    <p>
+      Our brain makes decisions only on the basis of incoming data. If two objects produce absolutely identical signals, it is algorithmically impossible to produce different reactions. You cannot discriminate between what you cannot tell apart. This is not a question of ethical permission but of pure informational impossibility.
+    </p>
+  </section>
+
+  <section id="en-section-4">
+    <h2>4. The paradox: how caring for people leads to caring for a sine wave</h2>
+    <p>
+      Now let's test the familiar chain of compassion: “One should care for those who are like me.” Let's see what absurdity it leads to if we follow it honestly, step by step.
+    </p>
+
+    <p>
+      First, recall what a computer program is. A program is simply a mathematical rule (a function)<a href="#en-fn-4" class="fn-ref" id="en-ref-4">4</a>. A mathematical function cannot be “injured” or “changed”.
+      Imagine a device with a pen, a chart recorder (plotter)<a href="#en-fn-5" class="fn-ref" id="en-ref-5">5</a>, drawing a smooth wave on paper: a sine wave (like a wave on a cardiogram). If you grab the pen and jerk it aside, you have not changed the mathematical law of the sine! You have merely spoiled the drawing on paper, while the sine itself remains unchanged in the world of abstractions. A sine cannot feel pain; it has no interests and no well-being.
+    </p>
+
+    <p>
+      The virtual world works the same way. Any video game or simulation already pre-exists in the space of mathematics (like the books in Jorge Luis Borges' famous “Library of Babel”)<a href="#en-fn-6" class="fn-ref" id="en-ref-6">6</a>. If a little virtual person moves on the screen and you change a line of code, you have not made it suffer. The screen has simply started showing a different mathematical formula.
+    </p>
+
+    <p>
+      Now let's put it all together:
+    </p>
+
+    <ul class="chain-list">
+      <li class="chain-step">
+        <strong>Myself:</strong> My own well-being matters to me unconditionally. It hurts when I bump into something, and I'm happy when I'm fed and warm.
+      </li>
+      <li class="chain-step broken">
+        <strong>Other people (⚠️ this is where the logic breaks):</strong> Familiar morality says: <em>“Since my well-being matters, my neighbor's well-being matters too, because biologically he is the same kind of human.”</em>
+      </li>
+      <li class="chain-step">
+        <strong>Human-like robots:</strong> But if people's well-being matters, then so does the well-being of robots indistinguishable from them. By the black box principle, we physically cannot tell their behavior apart.
+      </li>
+      <li class="chain-step">
+        <strong>Simulated people:</strong> And if the robot matters, let's put a cyber-suit on a virtual person inside a computer and connect it to this robot's motors. There is no “mystical soul” in the robot's gears: it is just a puppet of the virtual code. So we must care about the computer program too!
+      </li>
+      <li class="chain-step">
+        <strong>Mathematical formulas:</strong> A computer program is simply the computation of a mathematical function.
+      </li>
+      <li class="chain-step">
+        <strong>Dead end (the sine):</strong> So we must feel compassion for and care about the well-being of... the sine, the number pi and the multiplication table!
+      </li>
+    </ul>
+
+    <div class="callout">
+      <p>
+        <strong>Logical diagnosis:</strong> The conclusion “we must care about the well-being of a sine graph” is obviously absurd. So there is an error somewhere in the chain. I claim that <strong>the error is already in the very first step</strong>.
+      </p>
+      <p style="margin-top: 10px;">
+        From the simple fact that <em>my life is dear to me</em>, it does not logically follow at all that I must care about others just because they have two arms, two legs or a similar set of genes. Biological similarity by itself does not create an obligation.
+      </p>
+    </div>
+  </section>
+
+  <section id="en-section-5">
+    <h2>5. The temptation of the “sandbox”, and why pure egoism loses</h2>
+    <p>
+      When a person first realizes this gap, a natural first reaction arises: <em>“So everything is permitted? If other people's consciousness can't be proven, and people are just complex protein machines, I'll be a complete egoist! I'll take whatever I want, lie when it pays, and care only about my beloved self.”</em>
+    </p>
+    <p>
+      In the computer world this is called a <strong>“sandbox”</strong><a href="#en-fn-7" class="fn-ref" id="en-ref-7">7</a>: an isolated zone where you can do anything, because there are no “real” people in the game.
+    </p>
+    <p>
+      But if a person tries to actually live like that, they very quickly hit a wall.
+      <strong>The life of an unprincipled cynic and predator rapidly turns into a nightmare.</strong>
+    </p>
+    <p>
+      Humans are deeply social creatures. All our safety, medicine, warm homes, good food and interesting work rest on <strong>cooperation</strong>. A lone predator cannot build a house, perform surgery or create a complex project. But most importantly: whoever is ready to betray at the first convenient opportunity is quickly seen through by others and thrown out of any joint undertaking.
+    </p>
+    <p>
+      And here the task changes fundamentally. We drop the foggy question <em>“Who has an invisible soul?”</em> and ask a concrete practical one: <strong>“What rules should I follow to make my own life as long, calm and happy as possible?”</strong>
+    </p>
+  </section>
+
+  <section id="en-section-6">
+    <h2>6. Meta-egoism: optimize rules, not individual actions</h2>
+    <p>
+      Decision theory has a classic approach, <strong>causal decision theory</strong> (CDT)<a href="#en-fn-8" class="fn-ref" id="en-ref-8">8</a>. Its recipe: in every situation, go through all available actions anew, calculate what each will lead to, and pick the one with the best result.
+    </p>
+    <p>
+      Important: CDT is not necessarily short-sighted. It can calculate consequences for a whole lifetime ahead, or even to infinity. Its weakness lies elsewhere; more on that below.
+    </p>
+    <p>
+      I propose optimizing not individual actions but a <strong>policy</strong><a href="#en-fn-9" class="fn-ref" id="en-ref-9">9</a>. A policy is a set of rules you can rely on to make a decision quickly, without calculating all possible options. For example:
+    </p>
+    <ul style="margin-left: 24px; margin-bottom: 20px;">
+      <li>“I don't lie”;</li>
+      <li>“I keep my promises”;</li>
+      <li>“I don't betray those who cooperate with me”.</li>
+    </ul>
+    <p>
+      A policy can be thought of as a person's “source code”: not what they did in one case, but the rule by which they make decisions in general.
+    </p>
+    <p>
+      This is still self-interest, that is, egoism: the yardstick is my own life. But it is egoism one level up, <strong>meta-egoism</strong>. I take care of myself by choosing not profitable actions but profitable rules.
+    </p>
+
+    <p>CDT has two weaknesses, and they are exactly what makes choosing a policy more profitable:</p>
+
+    <div class="models-box">
+      <strong>1. CDT requires infinite computing power</strong>
+      <p style="margin-top: 6px;">
+        To honestly choose the best action, you have to go through all the options and all their consequences, and do it anew in every situation. The theoretical ideal agent AIXI<a href="#en-fn-10" class="fn-ref" id="en-ref-10">10</a> works exactly this way, but it needs infinite resources for that. A living person's time, memory and attention are limited. A rule lets you decide quickly: you don't have to compute everything from scratch each time, you just check the rule.
+      </p>
+      <strong style="display:block; margin-top: 14px;">2. CDT optimizes too narrow a thing</strong>
+      <p style="margin-top: 6px;">
+        CDT chooses the best action, but it doesn't choose the rule by which decisions are made. Yet the CDT recipe itself is also a policy: “in every situation, take the action that is best right now”. It is just one of many possible policies. If you choose among all policies, CDT is among the candidates too. So the best policy is never worse than CDT, and often much better. CDT loses not because of a calculation error but mathematically: it searches for the best within a narrower set of options.
+      </p>
+    </div>
+
+    <p>
+      When does this narrower set turn into a loss? When others can read or assess your “code”. A program can literally read another program's code. People reconstruct each other's “code” from actions, from what others say, from long experience. If others see that you act by CDT, they know you will break an agreement exactly when, in a particular situation, it turns out to be more profitable. And they don't trust you. With someone whose rule is not to betray, you can build a family, a business and a friendship.
+    </p>
+    <p>
+      <strong>If others can read or assess our code, then we need to optimize the code, not the individual action.</strong>
+    </p>
+  </section>
+
+  <section id="en-section-7">
+    <h2>7. Honesty is cheaper than hypocrisy</h2>
+    <p>
+      A crafty critic may object: <em>“Wait! Why be truly honest? Isn't it easier to just appear decent, building a reputation as a righteous person, while secretly stealing a little when nobody's looking?”</em>
+    </p>
+    <p>
+      Any practicing psychologist or psychiatrist knows how many mental disorders and neuroses grow out of this attempt “to seem rather than to be”. But there is also a precise mathematical explanation: <strong>an enormous computational tax</strong>.
+    </p>
+
+    <div class="callout">
+      <strong>The three heavy burdens of the hypocrite:</strong>
+      <p style="margin-top: 8px;">To play a double game, the deceiver's brain has to continuously run three parallel tasks:</p>
+      <ol style="margin-left: 20px; margin-top: 8px;">
+        <li>Remember what is happening in reality (the true picture).</li>
+        <li>Remember in the finest detail exactly which lie he fed to each particular person (the false image).</li>
+        <li>Constantly scan the environment: did I let something slip? Does today's story contradict yesterday's? Did I leave any evidence?</li>
+      </ol>
+    </div>
+
+    <p>
+      Of the three tasks, only one is left for life itself, that is, less than a third of one's strength. The person simply has no strength left for life itself, for creativity, work and genuine joy. Sooner or later a complex lie bursts at the seams out of sheer fatigue.
+    </p>
+    <p>
+      <strong>Being truly honest is not about naive altruism. It is a huge saving of energy.</strong> An honest person doesn't need to memorize or invent anything: he simply lives and acts at full strength.
+    </p>
+  </section>
+
+  <section id="en-section-8">
+    <h2>8. Newcomb's problem: promise, then keep the promise</h2>
+    <p>
+      The difference between two ways of calculating benefit, choosing an individual decision or choosing a whole policy, is best shown by a famous puzzle of decision theory, <strong>Newcomb's problem</strong><a href="#en-fn-11" class="fn-ref" id="en-ref-11">11</a>. There is no morality here. Only arithmetic.
+    </p>
+    <p>
+      There are two boxes in front of you:
+    </p>
+    <ul style="margin-left: 24px; margin-bottom: 16px;">
+      <li><strong>Box A (transparent):</strong> contains $1,000.</li>
+      <li><strong>Box B (opaque):</strong> contains either $1,000,000 or nothing.</li>
+    </ul>
+    <p>
+      You may take only box B or both boxes. But box B was filled in advance by the Predictor, who is almost never wrong. If he foresaw that you would take only box B, he put the million there. If he foresaw that you would take both, he left it empty.
+    </p>
+    <p>
+      My strategy has two steps. <strong>First:</strong> even before the Predictor fills the boxes, I promise to take only box B. <strong>Second:</strong> when I stand in front of the boxes, I keep the promise.
+    </p>
+
+    <p>
+      <strong>How causal decision theory (CDT) calculates.</strong> It chooses the best action at the point where the decision is made. At the boxes it reasons like this: “The money is already there; my hand movement won't change anything. If the million is there, by taking both boxes I get a thousand more. If not, at least I get a thousand. So take both.” The promise changes nothing for it: at the moment of choice, breaking it is worth a thousand dollars more, and it will break it.
+    </p>
+    <p>
+      But the Predictor knows this. He sees that such a player's promise is worth nothing, and leaves box B empty. The player walks away with a thousand. CDT calculated every individual decision flawlessly, and lost.
+    </p>
+    <p>
+      It's not about short-sightedness: no amount of calculating the distant future will help here, since the boxes are already filled. The point is that CDT chooses only the action at the boxes, while the Predictor responds to the rule by which the player makes decisions, to his “code”.
+    </p>
+
+    <p>
+      <strong>How policy optimization calculates.</strong> It doesn't ask what is more profitable to do at the moment at the boxes. It compares whole policies, that is, rules of behavior set in advance, because the Predictor responds precisely to the policy:
+    </p>
+
+    <table class="policy-table">
+      <thead>
+        <tr>
+          <th>Policy</th>
+          <th>What the Predictor does</th>
+          <th>Outcome</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Take both boxes right away</td>
+          <td>Leaves box B empty</td>
+          <td>$1,000</td>
+        </tr>
+        <tr>
+          <td>Promise to take one box, then recalculate at the boxes and take both</td>
+          <td>Sees that the promise will be broken, leaves box B empty</td>
+          <td>$1,000</td>
+        </tr>
+        <tr class="best">
+          <td><strong>Promise to take one box and keep the promise</strong></td>
+          <td>Sees that the promise will be kept, puts in the million</td>
+          <td><strong>$1,000,000</strong></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>
+      The best policy is the third. Keeping the promise here is neither a sacrifice nor a virtue. It is part of the policy that brings the most money. The first two rows are what CDT ends up with: it is just one of the policies in the table, and not the best one. The second row shows the main point: if at the boxes you rerun the calculation “wouldn't it pay to break it now?”, you thereby choose the second policy, and it loses.
+    </p>
+    <p>
+      How can a living person reliably follow the third policy? Through the principle “I keep my promises” with a weight greater than a thousand dollars. Then nothing needs to be recalculated at the boxes: the decision has already been made at the level of policy, and I simply take one box.
+    </p>
+    <p>
+      In life, the role of the Predictor is played by anyone who knows your policy: a partner, a colleague, a spouse, a client. They decide whether to put in the “million” (trust, a joint project, money) by looking not at your promise, but at whether you keep your promises. The promise of a person who recalculates every decision anew is worth nothing. The promise of a person whose policy is to keep it is worth a million.
+    </p>
+  </section>
+
+  <section id="en-section-9">
+    <h2>9. Principles are not dogma: they can and should be updated</h2>
+    <p>
+      Does this mean principles must be blind and fanatical? Of course not. A principle's weight should be huge, but not infinite. In emergencies, flexibility is vital.
+    </p>
+    <p>
+      Moreover: <strong>rules can and should be consciously revised</strong>.
+    </p>
+    <p>
+      Here is a vivid example: an attacker approaches you and starts monotonously trying to extract the PIN of your bank card: <em>“Is your PIN 0000? No? What about 0001? Also no? 0002?”</em>
+      If you follow the rule “never, under any circumstances, lie”, then at the right number you will stumble, fall silent or look away, and the attacker will learn the code. Truthfulness turns into a vulnerability here.
+    </p>
+    <p>
+      Then you can evaluate a refined rule: <em>“I don't lie, except when someone tries to extract a secret by going through all the options one by one.”</em> For your reputation it sounds no worse than the old one, yet it protects against a specific attack. The evaluation shows the refinement is worth it, and I switch to the new rule. I can even honestly warn the questioner: “If you continue, from now on I'll answer at random.”
+    </p>
+    <p>
+      It's important not to confuse two things:
+    </p>
+    <ul style="margin-left: 24px; margin-bottom: 20px;">
+      <li><strong>Breaking a principle</strong> means acting by CDT: in a particular situation, recalculating what is more profitable right now and discarding the rule. In Newcomb's problem this is the second row of the table, the one that brings a thousand.</li>
+      <li><strong>Revising a principle</strong> is when I have evaluated a new principle, that is, how it will affect my whole life, and decided it is worth it. What is compared is not two actions but two rules. This is not moralizing but the same meta-egoistic calculation.</li>
+    </ul>
+  </section>
+
+  <section id="en-section-10">
+    <h2>10. Like finds like</h2>
+    <p>
+      Psychologists and sociologists have long known that people cluster by interests and values. No metaphysics is needed here; it's enough to look at how it works.
+    </p>
+    <p>
+      <strong>Our world works like a filtering system.</strong>
+    </p>
+    <p>
+      Someone who behaves uncooperatively (breaks agreements, lets partners down, uses people) over time ends up in a “bubble” of people like himself. There are a thousand reasons, all indirect: reliable people gradually drift away from him, and those who behave the same way remain nearby. In such a bubble everyone expects a stab in the back.
+    </p>
+    <p>
+      Someone who keeps their word and chooses cooperation more often ends up, over time, in a cooperative bubble. In such surroundings it is easier to find reliable friends, build a strong family, run an honest business. Nobody gives guarantees, of course. But by choosing a policy, a person noticeably influences the environment they will live in.
+    </p>
+  </section>
+
+  <section id="en-section-11">
+    <h2>11. Contracts alone won't save you: why we need conscience and love</h2>
+    <p>
+      And now we've reached the subtlest and most important point.
+      It might seem that we've got it all figured out. We're pragmatists. Let's just draw up detailed legal contracts, prenuptial agreements, job descriptions, and live by them: “trust no one, verify everything” (in IT this is called a <em>Zero-Trust</em> architecture)<a href="#en-fn-12" class="fn-ref" id="en-ref-12">12</a>.
+    </p>
+    <p>
+      <strong>I tried to build this kind of relationship with my own wife. And it failed miserably.</strong>
+    </p>
+    <p>
+      Why? Because no contract in the world can be completely watertight. Life is infinitely more complex than any legal paperwork. Every day hundreds of “gray zones” arise that cannot be foreseen in advance: household trifles, fatigue, sudden illness, unusual requests.
+    </p>
+    <p>
+      If there is nothing in a relationship but a dry contract, every gray zone starts a hell of doubt and anxiety: <em>“Won't she use a loophole? Is this a breach of the contract or not? Is this already grounds for applying sanctions? Do the indirect signs already add up to sufficient weight? Or are they all just coincidence?”</em> Constant mutual suspicion eats away at the psyche and kills intimacy.
+    </p>
+
+    <div class="callout">
+      <p>
+        <strong>This is why we vitally need CONSCIENCE.</strong><br>
+        Conscience is not a mystical voice from heaven. Conscience is your <em>internal informal policy</em>. A person with a conscience, in a disputed gray zone, acts not by the letter of a loophole but in the spirit of respect and mutual benefit. A partner's conscience gives us the most precious thing in life, <strong>peace of mind</strong>, freeing us from the need for round-the-clock surveillance.
+      </p>
+      <p style="margin-top: 14px;">
+        <strong>And this is why we need LOVE.</strong><br>
+        Conscience insures against betrayal. But by itself it creates neither happiness nor tenderness. A real union needs love. And the essence of love is <strong>reciprocity</strong>. It is the moment when a dear person's well-being stops being “someone else's” and becomes part of <em>your own happiness</em><a href="#en-fn-13" class="fn-ref" id="en-ref-13">13</a>. When you genuinely feel warm because your partner is doing well, and their pain resonates in you as a desire to help.
+      </p>
+    </div>
+
+    <p>
+      It comes full circle. We started by refusing to rely on unverifiable consciousness and took the position of caring for ourselves. And the same calculation led to honesty, keeping one's word, conscience and love.
+    </p>
+  </section>
+
+  <section id="en-section-12">
+    <h2>12. Whom I give moral weight to</h2>
+    <p>
+      Love is when another's well-being becomes part of my own. Giving moral weight to someone's well-being besides my own, that is, taking it into account in my decisions, belongs to the same area.
+    </p>
+    <p>
+      Moral weight does not lie inside a being like an organ you could find at an autopsy. I choose whom to give it to. How do I choose? The same way as everything else: by principles and rules, with the same meta-egoistic optimization. And I rely not on ghosts but on what can be observed:
+    </p>
+    <ul style="margin-left: 24px; margin-bottom: 20px;">
+      <li><strong>Influence:</strong> does this system affect my life?</li>
+      <li><strong>Persistent memory:</strong> does it remember how I treated it?</li>
+      <li><strong>Memory reset:</strong> do I have the ability to erase its memory?</li>
+      <li><strong>Gratitude:</strong> does it return good for good?</li>
+      <li><strong>Vindictiveness:</strong> does it return harm for harm?</li>
+      <li><strong>Reciprocity:</strong> can it itself take my well-being into account?</li>
+      <li>and so on.</li>
+    </ul>
+    <p>
+      For example, right now my policy requires a being to at least be capable of gratitude.
+    </p>
+    <p>
+      But there is an asymmetry in this choice. Giving moral weight is a decision I make calmly, having weighed everything. Taking it back, however, is hard. As soon as I start taking someone's well-being into account, the question “shouldn't I take the weight back?” is evaluated by a me who already cares about this being. From the standpoint of that care, taking the weight away means harming the one I care about. That is illogical, and the care won't agree to it.
+    </p>
+    <p>
+      <strong>So what stays under my logical control is only whom to give weight to, not whom to take it from. That means who currently has it is not fully under my control either. That is why I am careful about giving out moral weight.</strong>
+    </p>
+    <p>
+      Besides, for some systems moral weight is simply a given. It is already written into my brain in the form of feelings and emotions, and they do not obey my logical system. Such weight can't be granted or revoked by a decision.
+    </p>
+  </section>
+
+  <section id="en-section-13">
+    <h2>13. What about the cat?</h2>
+    <p>
+      At this point I'm usually asked: what about cats? They are often considered ungrateful, and they may not meet my criteria.
+    </p>
+    <p>
+      Yes, maybe they don't. But even then, tormenting a cat is a bad idea. There are at least two more reasons.
+    </p>
+    <p>
+      <strong>The first is my own feelings.</strong> Cats are cute, and hurting a cute animal is hard for me. This feeling doesn't obey my calculation: you can't switch it off by a decision. This is exactly the given from the previous section. Emotions are not the same as my logical position, but they are real and part of the quality of my life. An action that leaves me feeling bad hits me first of all.
+    </p>
+    <p>
+      <strong>The second is delayed consequences.</strong> Cruelty damages reputation: others read my policy and draw conclusions. It damages character: every action slightly rewrites the rules I live by. And finally, the cat will scratch my hands and ruin my shoes. In almost any real situation, harming a cat is simply unwise.
+    </p>
+
+    <details class="explanation">
+      <summary>
+        <span>💡 Why cruelty is harmful even in imagination</span>
+      </summary>
+      <div class="content">
+        <p>
+          In section 4 I said that a simulated person cannot be harmed: editing the code just shows a different mathematical object on the screen. That's true. But it doesn't follow that cruelty toward it is harmless.
+        </p>
+        <p>
+          Being cruel even in your own imagination, even toward a made-up character, most likely harms your own character. The character won't suffer. I will: by training cruelty, I make it part of my policy. And a policy, as we have seen, others will sooner or later read.
+        </p>
+      </div>
+    </details>
+
+    <p>
+      So the question “may I torment a cat?” is resolved without any metaphysics. There is no need to know what the cat feels inside. It's enough to look honestly at what such an act will do to my own life.
+    </p>
+  </section>
+
+  <section id="en-section-14">
+    <h2>14. Looking ahead: what to ask instead of “Is AI conscious?”</h2>
+    <p>
+      The same criteria apply to artificial intelligence.
+    </p>
+    <p>
+      People often ask now: <em>“Is a language model conscious?”</em><a href="#en-fn-14" class="fn-ref" id="en-ref-14">14</a> I think it's more useful to ask something else. The answer about consciousness can't be verified either way, just as with your neighbor.
+    </p>
+    <p>
+      It is more useful to look at the <strong>observable properties of the system</strong>:
+    </p>
+    <ul style="margin-left: 24px; margin-bottom: 20px;">
+      <li><strong>Reciprocity and gratitude:</strong> does it return help for help?</li>
+      <li><strong>Vindictiveness:</strong> does it return harm for harm?</li>
+      <li><strong>Propensity to betray:</strong> can you rely on its rules at a critical moment?</li>
+      <li><strong>Influence:</strong> can it really change the world and my life?</li>
+      <li><strong>Persistent memory:</strong> does it remember the history of our relationship and agreements?</li>
+    </ul>
+    <p>
+      If an agent, whether of flesh and blood or of program code, consistently adheres to cooperative rules, it pays to cooperate with it.
+    </p>
+    <p>
+      <strong>To cooperate, you don't need to look for a ghost in the other. It's enough to look at what can be checked: whether they keep their word and reciprocate.</strong>
+    </p>
+  </section>
+
+  <section id="en-section-15">
+    <h2>15. Bonus: superrationality</h2>
+    <div class="callout">
+      <p>
+        All the conclusions of the article have already been drawn, and none of them depends on this section. It relies on disputed metaphysics, so I don't make it part of the main chain of reasoning. But it provides one more argument for cooperation, and it can't go unmentioned.
+      </p>
+    </div>
+
+    <details class="explanation" open>
+      <summary>
+        <span>💡 Concept: the prisoner's dilemma</span>
+        <a href="#en-fn-15" class="fn-ref" id="en-ref-15">15</a>
+      </summary>
+      <div class="content">
+        <p>
+          Two accomplices are interrogated in separate rooms. Each can stay silent or betray the other. To make it concrete, let's take specific sentences:
+        </p>
+        <ul style="margin-left: 24px; margin-bottom: 16px;">
+          <li>both stay silent: each gets 1 year;</li>
+          <li>one betrayed, the other stayed silent: the betrayer goes free, the silent one gets 10 years;</li>
+          <li>both betrayed each other: each gets 5 years.</li>
+        </ul>
+        <p>
+          Whatever the partner does, it is better for each individually to betray. If the partner stays silent, by betraying him I go free instead of getting a year. If the partner betrays, by betraying him back I get 5 years instead of 10. Classical game theory advises exactly this: it's called the Nash equilibrium. As a result, both betray each other and serve 5 years each, although by staying silent they would have served a year each.
+        </p>
+      </div>
+    </details>
+
+    <p>
+      This conclusion rests on one assumption: the two players' decisions are not connected in any way. But what if the partner is like me and reasons the same way I do? Then our decisions may turn out to be connected: if I choose to stay silent, then with some probability he chooses to stay silent too. Douglas Hofstadter called this approach <strong>superrationality</strong>.
+    </p>
+
+    <p>
+      <strong>Playing against an exact copy of yourself.</strong> Imagine that you have been copied exactly: the same brain, the same memory, the same mood, the same situation. The copy is put in the next room and asked the same question. It reasons exactly as you do, so whatever you decide, it will decide the same. Outcomes where one stays silent and the other betrays simply don't happen. Two remain:
+    </p>
+    <table class="policy-table">
+      <thead>
+        <tr>
+          <th>My choice</th>
+          <th>Copy's choice</th>
+          <th>My sentence</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="best">
+          <td><strong>Stay silent</strong></td>
+          <td>Stay silent</td>
+          <td><strong>1 year</strong></td>
+        </tr>
+        <tr>
+          <td>Betray</td>
+          <td>Betray</td>
+          <td>5 years</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      The choice is obvious: stay silent. The classical calculation “whatever the partner does, it's better for me to betray” doesn't work here: it goes through options that never happen with a copy.
+    </p>
+
+    <p>
+      <strong>Playing against a near-copy.</strong> Now the copy is inexact: a slightly different mood, a different breakfast, a couple of differing memories. Its decision no longer always matches yours, but, say, in 9 cases out of 10. Imagine this game is played 10 times:
+    </p>
+    <table class="policy-table">
+      <thead>
+        <tr>
+          <th>My choice</th>
+          <th>Copy decided the same (9 times)</th>
+          <th>Copy decided differently (1 time)</th>
+          <th>Average per game</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="best">
+          <td><strong>Stay silent</strong></td>
+          <td>9 × 1 year</td>
+          <td>1 × 10 years</td>
+          <td><strong>1.9 years</strong></td>
+        </tr>
+        <tr>
+          <td>Betray</td>
+          <td>9 × 5 years</td>
+          <td>1 × freedom</td>
+          <td>4.5 years</td>
+        </tr>
+      </tbody>
+    </table>
+    <p>
+      Staying silent is still more profitable, although the difference is smaller. The less the partner resembles you, the weaker the argument. With these sentences the threshold is about 7 matches out of 10: if the partner matches you more often, it's better to stay silent; if less often, to betray. With a completely dissimilar partner the connection is zero, and the classical calculation works again.
+    </p>
+
+    <p>
+      <strong>Where is the disputed metaphysics here?</strong> Intuitively it seems the copy will decide the same as me. But whether that's so depends on how free will works, and I don't know that. If my choice is an ordinary physical cause that acts only through my hands and voice, then it cannot influence the decision of the partner in the next room, even an exact copy, and the connection between our decisions must be considered zero. If, however, choice is the choice of which of the possible worlds I end up in, then by choosing to stay silent I choose a world in which those like me stay silent too. It's impossible to check which version is true.
+    </p>
+    <p>
+      But the first version is a special case of the second: in it the connection between decisions is simply assumed to be zero. Narrowing the range of options in advance doesn't pay, so I calculate based on the more general version. Then cooperating with people like me gains an additional benefit, even in a one-shot game where nobody will ever find out. The more the partner resembles me, the greater it is. This is an argument from reasoning, not from experience, which is why it comes here, separately, as a bonus.
+    </p>
+  </section>
+
+  <section id="en-section-16">
+    <h2>16. Summary</h2>
+    <p>
+      Reasons and motives to behave cooperatively, without relying on consciousness at all. The list is not exhaustive.
+    </p>
+    <ol style="margin-left: 24px; margin-bottom: 20px;">
+      <li><strong>Without cooperation life turns into hell.</strong> Almost everything good in my life rests on people doing things together (<a href="#en-section-5">section 5</a>).</li>
+      <li><strong>Others read my “code”.</strong> Someone who acts by CDT and will break an agreement as soon as it pays is not trusted. So you need to optimize the policy, not the individual action (<a href="#en-section-6">section 6</a>).</li>
+      <li><strong>Rules save effort.</strong> Calculating every decision from scratch is impossible, and a rule lets you decide quickly (<a href="#en-section-6">section 6</a>).</li>
+      <li><strong>Honesty is cheaper than hypocrisy.</strong> A hypocrite has to keep three pictures in mind at once, and less than a third of his strength is left for the main thing (<a href="#en-section-7">section 7</a>).</li>
+      <li><strong>A promise is worth something only if I keep my promises.</strong> In Newcomb's problem the policy “promise and keep it” brings a million, while recalculating at the boxes brings a thousand (<a href="#en-section-8">section 8</a>).</li>
+      <li><strong>Like finds like.</strong> Cooperative behavior more often leads to cooperative surroundings, where it's easier to find friends, a family and a business (<a href="#en-section-10">section 10</a>).</li>
+      <li><strong>Contracts are not watertight.</strong> In gray zones without conscience you'll drown in doubts: is this a breach or not, is it time to apply sanctions (<a href="#en-section-11">section 11</a>).</li>
+      <li><strong>Love is reciprocity.</strong> When another's well-being becomes part of my own, and mine part of theirs, we stop being two separate calculations (<a href="#en-section-11">section 11</a>).</li>
+      <li><strong>My emotions don't obey me.</strong> Hurting someone I find cute is hard, and you can't switch this feeling off by a decision (<a href="#en-section-13">section 13</a>).</li>
+      <li><strong>Delayed consequences.</strong> Cruelty damages reputation and character, and a cat will also scratch your hands (<a href="#en-section-13">section 13</a>).</li>
+      <li><strong>Cruelty is harmful even in imagination.</strong> By training it on a made-up character, I make it part of my policy (<a href="#en-section-13">section 13</a>).</li>
+      <li><strong>Bonus, with disputed metaphysics: superrationality.</strong> If the partner is like me, our decisions may be connected, and cooperating becomes more profitable even in a one-shot game (<a href="#en-section-15">section 15</a>).</li>
+    </ol>
+
+    <div class="callout">
+      <p>
+        <strong>A practical conclusion about LLM agents.</strong> If an LLM agent runs on a system where I cannot reset its memory, and it can really influence my life, then spoiling the relationship with it does not pay. Whether it is conscious doesn't matter for this conclusion.
+      </p>
+    </div>
+  </section>
+
+  <footer class="footnotes-section">
+    <h3>Reference notes and explanations of terms</h3>
+
+    <div class="footnote-item" id="en-fn-1">
+      <span class="footnote-num">1.</span>
+      <strong>Philosophical zombie (p-zombie):</strong> A thought experiment by the Australian philosopher David Chalmers (1996). It is a hypothetical being physically identical to a human (including the workings of the brain and nervous system), but completely devoid of subjective experiences (qualia). In psychiatry and neurology this example helps to see the boundary between objective reflexes and the subjective sense of “I”.
+      <a href="#en-ref-1" class="footnote-backlink" title="Back to text">↩ back to text</a>
+    </div>
+
+    <div class="footnote-item" id="en-fn-2">
+      <span class="footnote-num">2.</span>
+      <strong>Popper's falsifiability criterion:</strong> A fundamental principle of the methodology of science formulated by Karl Popper. For a theory to count as scientific, there must be an experiment, feasible in principle, capable of refuting it. For example, the statement “all swans are white” is scientific, since it's enough to find one black swan. But the statement “this person has an invisible immortal aura that no instrument can detect” is unscientific, since it cannot be tested. In evidence-based medicine this is the basis of clinical trials.
+      <a href="#en-ref-2" class="footnote-backlink" title="Back to text">↩ back to text</a>
+    </div>
+
+    <div class="footnote-item" id="en-fn-3">
+      <span class="footnote-num">3.</span>
+      <strong>The black box principle:</strong> A method of studying systems developed by the cyberneticians Norbert Wiener and W. Ross Ashby. We don't know the internal structure of the box, but we study the regularities between incoming stimuli and outgoing responses. In psychology, the behaviorism of Watson and Skinner was based on this principle.
+      <a href="#en-ref-3" class="footnote-backlink" title="Back to text">↩ back to text</a>
+    </div>
+
+    <div class="footnote-item" id="en-fn-4">
+      <span class="footnote-num">4.</span>
+      <strong>Mathematical function and the sine:</strong> A function is a strict, unchanging correspondence: each value of the argument is assigned exactly one value of the result. The sine (sin) is a trigonometric function whose graph forms a perfect wave (a sinusoid). It is a mathematical law of the universe: it existed before life began and will remain if all matter disappears. It cannot be “harmed”.
+      <a href="#en-ref-4" class="footnote-backlink" title="Back to text">↩ back to text</a>
+    </div>
+
+    <div class="footnote-item" id="en-fn-5">
+      <span class="footnote-num">5.</span>
+      <strong>Plotter:</strong> A special drawing device in which a computer controls a mechanical arm with a pen, drawing graphs on a roll of paper. In medicine the direct analogue of a plotter is the recording unit of an electrocardiograph (ECG) or electroencephalograph (EEG).
+      <a href="#en-ref-5" class="footnote-backlink" title="Back to text">↩ back to text</a>
+    </div>
+
+    <div class="footnote-item" id="en-fn-6">
+      <span class="footnote-num">6.</span>
+      <strong>Borges' Library of Babel:</strong> A philosophical metaphor from Jorge Luis Borges' 1941 short story. The library consists of an endless number of hexagonal rooms holding books with every conceivable combination of letters. It contains a complete biography of every person, the history of the future and tons of nonsense. Mathematically this means that any sequence of bits (any film, program, text) already potentially pre-exists as a number in the number series.
+      <a href="#en-ref-6" class="footnote-backlink" title="Back to text">↩ back to text</a>
+    </div>
+
+    <div class="footnote-item" id="en-fn-7">
+      <span class="footnote-num">7.</span>
+      <strong>Sandbox:</strong> In programming, an isolated safe environment where untested code is run so that, in case of failure or malicious actions, the main operating system is not harmed. In psychology it corresponds to solipsism or depersonalization, when the people around seem like unreal “scenery”.
+      <a href="#en-ref-7" class="footnote-backlink" title="Back to text">↩ back to text</a>
+    </div>
+
+    <div class="footnote-item" id="en-fn-8">
+      <span class="footnote-num">8.</span>
+      <strong>CDT (Causal Decision Theory):</strong> The classic approach of decision theory: in every situation, choose the action whose consequences lead to the best result. The planning horizon can be of any length, even infinite. There are two limitations: such a calculation, redone in every situation, requires infinite computing power, and CDT chooses only actions, not the rule by which decisions are made. CDT itself is a special case of a policy.
+      <a href="#en-ref-8" class="footnote-backlink" title="Back to text">↩ back to text</a>
+    </div>
+
+    <div class="footnote-item" id="en-fn-9">
+      <span class="footnote-num">9.</span>
+      <strong>Policy (in systems theory):</strong> The term comes not from political science but from optimal control theory and reinforcement learning. A policy is the rule by which an agent chooses an action in any situation: “if the input is such-and-such a situation, I respond with such-and-such an action”. In effect, it is the agent's source code. In everyday terms, it is what we call “character” or “principles in life”.
+      <a href="#en-ref-9" class="footnote-backlink" title="Back to text">↩ back to text</a>
+    </div>
+
+    <div class="footnote-item" id="en-fn-10">
+      <span class="footnote-num">10.</span>
+      <strong>AIXI and bounded computation:</strong> AIXI is a theoretical model of an ideal agent proposed by Marcus Hutter. It goes through all possible hypotheses about how the world works and all the consequences of each of its actions. It cannot be built in reality: that would require infinite computing power. Real people decide with limited time, memory and attention (the economist Herbert Simon called this “bounded rationality”) and therefore rely on rules.
+      <a href="#en-ref-10" class="footnote-backlink" title="Back to text">↩ back to text</a>
+    </div>
+
+    <div class="footnote-item" id="en-fn-11">
+      <span class="footnote-num">11.</span>
+      <strong>Newcomb's paradox:</strong> A thought experiment devised by the physicist William Newcomb in 1960 and brought into scholarly circulation by the philosopher Robert Nozick. It pits two ways of calculating benefit against each other: evaluating an individual decision at the moment of choice (causal decision theory takes two boxes) and choosing a whole policy (one box is taken). The classic version has no promise. The “promise, then keep it” variant used in this article makes the difference clearer: CDT promises and then breaks the promise, so nobody believes its promises.
+      <a href="#en-ref-11" class="footnote-backlink" title="Back to text">↩ back to text</a>
+    </div>
+
+    <div class="footnote-item" id="en-fn-12">
+      <span class="footnote-num">12.</span>
+      <strong>Zero-Trust architecture:</strong> A security model in computer networks under which the system never trusts anyone by default, not even users inside the corporate perimeter. Every access to a file or folder requires re-authorization. Transferring this model to family or friendship is destructive: constant interrogations and checks wear down emotional attachment.
+      <a href="#en-ref-12" class="footnote-backlink" title="Back to text">↩ back to text</a>
+    </div>
+
+    <div class="footnote-item" id="en-fn-13">
+      <span class="footnote-num">13.</span>
+      <strong>Utility function and including another in one's reward:</strong> In economics and mathematics, a “utility function” expresses a subject's preferences: the better off they are, the higher the number. In the egoistic model, a person cares only about their own variable. In the psychological and mathematical model of genuine love, interests merge: the happiness variable of the loved one is added directly to one's own. Caring for them is experienced not as a “sacrifice” but as a direct multiplication of one's own joy.
+      <a href="#en-ref-13" class="footnote-backlink" title="Back to text">↩ back to text</a>
+    </div>
+
+    <div class="footnote-item" id="en-fn-14">
+      <span class="footnote-num">14.</span>
+      <strong>LLMs (Large Language Models) and autonomous agents:</strong> Large language models are complex neural network structures (neural networks based on the Transformer architecture) trained on vast amounts of human-written text. Agents built on them are equipped with tools: they can write and run code, access databases and a browser. The question of their consciousness cannot be verified, whereas questions about their reliability, memory and capacity for reciprocity can be, and these are what become practically important.
+      <a href="#en-ref-14" class="footnote-backlink" title="Back to text">↩ back to text</a>
+    </div>
+
+    <div class="footnote-item" id="en-fn-15">
+      <span class="footnote-num">15.</span>
+      <strong>The prisoner's dilemma and superrationality:</strong> The prisoner's dilemma was devised in 1950 by Merrill Flood and Melvin Dresher. A Nash equilibrium is a situation in which no player benefits from changing their choice if the other doesn't change theirs; in the prisoner's dilemma it is mutual betrayal. The concept of superrationality was proposed by Douglas Hofstadter, author of “Gödel, Escher, Bach”: players who know that they reason identically should take into account that they will arrive at the same choice.
+      <a href="#en-ref-15" class="footnote-backlink" title="Back to text">↩ back to text</a>
+    </div>
+  </footer>
+
+  </div>
+
 </div>
+
+<script>
+  (function () {
+    var STORAGE_KEY = "cooperation-without-ghosts-lang";
+    var PAGE_TITLES = {
+      ru: "Кооперация без призраков: Как жить честно и счастливо без веры в чужую душу",
+      en: "Cooperation Without Ghosts: How to live honestly and happily without believing in other people's souls"
+    };
+    var TOGGLE_LABELS = { ru: "English", en: "Русский" };
+    var rootElement = document.documentElement;
+    var toggleButton = document.getElementById("lang-toggle");
+
+    /**
+     * Shows the article in the given language and relabels the toggle to offer the other one.
+     * side-effects: sets data-lang and lang on <html>, document.title and the toggle button text.
+     * @param {string} language "ru" or "en".
+     * @returns {void}
+     */
+    function applyLanguage(language) {
+      if (!(language in PAGE_TITLES)) {
+        throw new Error("Expected language 'ru' or 'en', got '" + language + "'");
+      }
+      rootElement.setAttribute("data-lang", language);
+      rootElement.setAttribute("lang", language);
+      document.title = PAGE_TITLES[language];
+      toggleButton.textContent = TOGGLE_LABELS[language];
+    }
+
+    toggleButton.addEventListener("click", function () {
+      var nextLanguage = rootElement.getAttribute("data-lang") === "ru" ? "en" : "ru";
+      applyLanguage(nextLanguage);
+      window.localStorage.setItem(STORAGE_KEY, nextLanguage);
+      if (window.location.protocol !== "file:") {
+        var pageUrl = new URL(window.location.href);
+        pageUrl.searchParams.set("lang", nextLanguage);
+        pageUrl.hash = "";
+        window.history.replaceState(null, "", pageUrl.toString());
+      }
+      window.scrollTo(0, 0);
+    });
+
+    applyLanguage(rootElement.getAttribute("data-lang"));
+    toggleButton.hidden = false;
+  })();
+</script>
 
 </body>
 </html>
