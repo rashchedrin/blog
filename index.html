@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="ru" data-lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>rashchedrin</title>
+<script>
+  (function () {
+    var SUPPORTED_LANGUAGES = ["ru", "en"];
+    var requestedLanguage = new URLSearchParams(window.location.search).get("lang");
+    var savedLanguage = window.localStorage.getItem("rashchedrin-blog-lang");
+    var browserLanguage = (navigator.language || "").toLowerCase();
+    var initialLanguage;
+    if (SUPPORTED_LANGUAGES.indexOf(requestedLanguage) !== -1) {
+      initialLanguage = requestedLanguage;
+    } else if (SUPPORTED_LANGUAGES.indexOf(savedLanguage) !== -1) {
+      initialLanguage = savedLanguage;
+    } else {
+      initialLanguage = /^(ru|uk|be|kk)/.test(browserLanguage) ? "ru" : "en";
+    }
+    document.documentElement.setAttribute("data-lang", initialLanguage);
+    document.documentElement.setAttribute("lang", initialLanguage);
+  })();
+</script>
+<style>
+  :root {
+    --bg-page: #ffffff;
+    --bg-card: #f8fafc;
+    --border-color: #cbd5e1;
+    --text-primary: #0f172a;
+    --text-secondary: #334155;
+    --text-muted: #64748b;
+    --accent-color: #0369a1;
+    --accent-hover: #0284c7;
+    --accent-light: #e0f2fe;
+    --font-sans: "Segoe UI", system-ui, -apple-system, sans-serif;
+    --font-serif: Georgia, "Times New Roman", serif;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg-page: #0a0d14;
+      --bg-card: #131823;
+      --border-color: #334155;
+      --text-primary: #ffffff;
+      --text-secondary: #f1f5f9;
+      --text-muted: #cbd5e1;
+      --accent-color: #38bdf8;
+      --accent-hover: #7dd3fc;
+      --accent-light: #132a4a;
+    }
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    background-color: var(--bg-page);
+    color: var(--text-primary);
+    font-family: var(--font-serif);
+    font-size: 19px;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    padding: 40px 20px 80px;
+  }
+
+  .container {
+    max-width: 740px;
+    margin: 0 auto;
+  }
+
+  html[data-lang="ru"] .lang-block[lang="en"],
+  html[data-lang="en"] .lang-block[lang="ru"] {
+    display: none;
+  }
+
+  .lang-toggle {
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    z-index: 10;
+    font-family: var(--font-sans);
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--bg-page);
+    background-color: var(--text-primary);
+    border: 2px solid var(--text-primary);
+    border-radius: 999px;
+    padding: 8px 16px;
+    cursor: pointer;
+  }
+
+  .lang-toggle:hover,
+  .lang-toggle:focus-visible {
+    background-color: var(--accent-color);
+    border-color: var(--accent-color);
+  }
+
+  @media print {
+    .lang-toggle {
+      display: none;
+    }
+  }
+
+  header {
+    margin-bottom: 48px;
+    padding-bottom: 32px;
+    border-bottom: 2px solid var(--border-color);
+  }
+
+  .site-name {
+    font-family: var(--font-sans);
+    font-size: 42px;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+    margin-bottom: 12px;
+  }
+
+  .site-tagline {
+    font-family: var(--font-sans);
+    font-size: 20px;
+    color: var(--text-secondary);
+    line-height: 1.45;
+  }
+
+  .section-label {
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-muted);
+    margin-bottom: 16px;
+  }
+
+  .article-list {
+    list-style: none;
+  }
+
+  .article-list li + li {
+    margin-top: 16px;
+  }
+
+  .article-list a {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    background: var(--bg-card);
+    border: 1.5px solid var(--border-color);
+    border-radius: 8px;
+    padding: 20px 24px;
+    transition: border-color 0.15s ease, color 0.15s ease;
+  }
+
+  .article-list a:hover,
+  .article-list a:focus-visible {
+    border-color: var(--accent-color);
+  }
+
+  .article-title {
+    font-family: var(--font-sans);
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--accent-color);
+    margin-bottom: 6px;
+  }
+
+  .article-list a:hover .article-title,
+  .article-list a:focus-visible .article-title {
+    color: var(--accent-hover);
+  }
+
+  .article-blurb {
+    font-family: var(--font-sans);
+    font-size: 16px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+
+  @media (max-width: 640px) {
+    body {
+      padding: 24px 16px 60px;
+    }
+    .site-name {
+      font-size: 34px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<button class="lang-toggle" id="lang-toggle" type="button" hidden>English</button>
+
+<div class="container">
+
+  <div class="lang-block" lang="ru">
+    <header>
+      <div class="site-name">rashchedrin</div>
+      <p class="site-tagline">Заметки по практической философии</p>
+    </header>
+
+    <div class="section-label">Статьи</div>
+    <ul class="article-list">
+      <li>
+        <a href="cooperation-without-ghosts/?lang=ru">
+          <div class="article-title">Кооперация без призраков</div>
+          <div class="article-blurb">Как жить честно и счастливо без веры в чужую душу</div>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="lang-block" lang="en">
+    <header>
+      <div class="site-name">rashchedrin</div>
+      <p class="site-tagline">Notes on practical philosophy</p>
+    </header>
+
+    <div class="section-label">Articles</div>
+    <ul class="article-list">
+      <li>
+        <a href="cooperation-without-ghosts/?lang=en">
+          <div class="article-title">Cooperation Without Ghosts</div>
+          <div class="article-blurb">How to live honestly and happily without believing in other people's souls</div>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+</div>
+
+<script>
+  (function () {
+    var STORAGE_KEY = "rashchedrin-blog-lang";
+    var PAGE_TITLES = {
+      ru: "rashchedrin",
+      en: "rashchedrin"
+    };
+    var TOGGLE_LABELS = { ru: "English", en: "Русский" };
+    var rootElement = document.documentElement;
+    var toggleButton = document.getElementById("lang-toggle");
+
+    /**
+     * Shows the index in the given language and relabels the toggle.
+     * side-effects: sets data-lang and lang on <html>, document.title and the toggle button text.
+     * @param {string} language "ru" or "en".
+     * @returns {void}
+     */
+    function applyLanguage(language) {
+      if (!(language in PAGE_TITLES)) {
+        throw new Error("Expected language 'ru' or 'en', got '" + language + "'");
+      }
+      rootElement.setAttribute("data-lang", language);
+      rootElement.setAttribute("lang", language);
+      document.title = PAGE_TITLES[language];
+      toggleButton.textContent = TOGGLE_LABELS[language];
+    }
+
+    toggleButton.addEventListener("click", function () {
+      var nextLanguage = rootElement.getAttribute("data-lang") === "ru" ? "en" : "ru";
+      applyLanguage(nextLanguage);
+      window.localStorage.setItem(STORAGE_KEY, nextLanguage);
+      if (window.location.protocol !== "file:") {
+        var pageUrl = new URL(window.location.href);
+        pageUrl.searchParams.set("lang", nextLanguage);
+        pageUrl.hash = "";
+        window.history.replaceState(null, "", pageUrl.toString());
+      }
+    });
+
+    applyLanguage(rootElement.getAttribute("data-lang"));
+    toggleButton.hidden = false;
+  })();
+</script>
+
+</body>
+</html>
